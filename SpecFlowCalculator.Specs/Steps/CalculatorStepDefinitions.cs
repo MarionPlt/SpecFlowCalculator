@@ -1,5 +1,6 @@
 ﻿using TechTalk.SpecFlow;
 using FluentAssertions;
+using System.Collections.Generic;
 
 namespace SpecFlowCalculator.Specs.Steps
 {
@@ -12,6 +13,7 @@ namespace SpecFlowCalculator.Specs.Steps
         private readonly ScenarioContext _scenarioContext;
         private readonly Calculator _calculator = new Calculator();
         private int _result;
+        private string _message;
 
         public CalculatorStepDefinitions(ScenarioContext scenarioContext)
         {
@@ -30,7 +32,11 @@ namespace SpecFlowCalculator.Specs.Steps
             _calculator.SecondNumber = number;
         }
 
-        
+        [Given(@"the complete (.*)")]
+        public void GivenTheCompleteCalculus(string c)
+        {
+            _calculator.Operation = c;
+        }
 
         [When("the two numbers are added")]
         public void WhenTheTwoNumbersAreAdded()
@@ -38,10 +44,50 @@ namespace SpecFlowCalculator.Specs.Steps
             _result = _calculator.Add();
         }
 
+        [When("the two numbers are substracted")]
+        public void WhenTheTwoNumbersAreSubstracted()
+        {
+            _result = _calculator.Substract();
+        }
+    
+
+
+        [When("the two numbers are multiplied")]
+        public void WhenTheTwoNumbersAreMultiplied()
+        {
+            _result = _calculator.Multiply();
+        }
+
+        [When("the two numbers are divided")]
+        public void WhenTheTwoNumbersAreDivided()
+        {
+            try
+            {
+                _result = _calculator.Divide();
+            } catch(System.Exception _e)
+            {
+                _message = "Error";
+            }
+          
+        }
+        [When("the operation is applied")]
+        public void WhenTheOperationIsApplied()
+        {
+            _result = _calculator.SuperCalculator();
+        }
+
         [Then("the result should be (.*)")]
         public void ThenTheResultShouldBe(int result)
         {
             _result.Should().Be(result);
         }
+
+        [Then(@"the user get an error message ""(.*)""")]
+        public void ThenTheUserGetAnErrorMessage(string p0)
+        {
+            _message.Should().Be(p0);
+        }
+
+
     }
 }
