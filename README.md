@@ -1,3 +1,3 @@
 # SpecFlowCalculator
 ESGI 4AL Marion Playout
-TP BDD
+TP1 BDD
